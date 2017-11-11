@@ -344,6 +344,33 @@ void input()
     }*/
     gateselection(k);
 }
+void clear(node *first)
+{
+	node *temp;
+	while(*temp)
+	{
+		temp=first;
+		*first=(*first)->next;
+		delete temp;
+	}
+}
+
+vector<vector<int>> matmul(vector<vector<int>> a,vector<vector<int>> b)
+{
+	vector<vector<int>> c;
+	for(i=0;i<a[0].size();i++)
+	{
+		for(j=0;j<a.size();j++)
+		{
+			c[i][j]=0;
+			for(k=0;k<a.size();k++)
+			{
+				c[i][j]=c[i][j]+a[i][k]*b[k][j];
+			}
+		}
+	}
+	return c;
+}
 
 int main()
 {
