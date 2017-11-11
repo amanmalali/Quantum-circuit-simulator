@@ -2,7 +2,7 @@
 #include <vector>
 #include <cmath>
 using namespace std;
-int Q[64][64];
+vector<vector<int>>Q;
 vector<vector<int>>P;
 vector<vector<int>>N;
 vector<vector<int>>H;
@@ -186,7 +186,7 @@ void input()
     cout<<"enter the number of qubits"<<endl;
     cin>>n;
     int k=pow(2,n);
-    
+    Q.resize(k,vector<int>(k,0));
     for(i=0;i<k;i++)
     {
         for(j=0;j<k;j++)
