@@ -1,12 +1,13 @@
 #include <iostream>
 #include <vector>
 #include <cmath>
+#include <string>
 using namespace std;
-vector<vector<int>>Q;
-vector<vector<int>>P;
-vector<vector<int>>N;
-vector<vector<int>>H;
-vector<vector<int>> Tensor_Product(vector<vector<int> >a,int b[2][2],int n,int m);
+vector<vector<int> >Q;
+vector<vector<int> >P;
+vector<vector<int> >N;
+vector<vector<int> >H;
+vector<vector<int> > Tensor_Product(vector<vector<int> >a,int b[2][2],int n,int m);
 
 struct node
 {
@@ -159,9 +160,92 @@ void hadamard(int n)
     }
 }
 
-vector<vector<int>> Tensor_Product(vector<vector<int> >a,int b[2][2],int n,int m)
+struct component
 {
-    vector<vector<int>>c;
+vector<vector<int> >gate;
+string type;
+component *wire;
+}*cstart,*crear,*cnewptr,*cptr;
+
+component *createcomponent(string comp,int n)
+{
+    cptr=new component;
+    cptr->gate.resize(n,vector<int>(n,0));
+    cptr->type=comp;
+    if(comp.compare("NOT"))
+        cptr->gate=N;
+    else if(comp.compare("HGATE"))
+        cptr->gate=H;
+    else
+        cptr->gate=P;
+    cptr->wire=NULL;
+    return cptr;
+};
+
+
+void insert_component(component *cnp)
+{
+    if(cstart==NULL)
+        cstart=crear=cnp;
+    else
+    {
+        crear->wire=cnp;
+        crear=cnp;
+    }
+}
+
+void display(component *np)
+{   cout<<"\n"<<"INPUT--->";
+    while(np!=NULL)
+    {
+        cout<<np->type<<"--->";
+        np=np->wire;
+    }    
+
+    cout<<"OUTPUT"<<"\n\n\n";
+}
+
+
+void gateselection(int n)
+{   
+    int choice=0;
+    while(choice!=5)
+    {
+        cout<<"\n\n";
+        cout<<"1.ADD NOT GATE\n2.ADD HGATE\n3.ADD PGATE\n4.DISPLAY\n5.EXIT\nChoice : ";
+        cin>>choice;
+
+        switch(choice)
+        {
+            case 1: cnewptr=createcomponent("NOT",n);
+                    insert_component(cnewptr);
+                    break;
+            case 2: cnewptr=createcomponent("HGATE",n);
+                    insert_component(cnewptr);
+                    break;
+
+            case 3: cnewptr=createcomponent("PGATE",n);
+                    insert_component(cnewptr);
+                    break;
+            case 4: display(cstart);
+                    break;
+            case 5: cout<<"Exiting\n\n\n";
+                    break;
+            default : cout<<"\nWrong choice\n";
+
+
+        }
+    }
+
+
+
+}
+
+
+
+vector<vector<int> > Tensor_Product(vector<vector<int> >a,int b[2][2],int n,int m)
+{
+    vector<vector<int> >c;
     c.resize(n*m,vector<int>(n*m,0));
     int i,j,l,k;
     for(i=0;i<n;i++)
@@ -258,11 +342,13 @@ void input()
         }
         cout<<"\n\n";
     }*/
+    gateselection(k);
 }
 
 int main()
 {
     input();
+
     
     return 0;
 }
