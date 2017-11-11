@@ -182,7 +182,7 @@ vector<vector<int>> Tensor_Product(vector<vector<int> >a,int b[2][2],int n,int m
 
 void input()
 {
-    int n,m,i,j;
+    int n,i,j;
     cout<<"enter the number of qubits"<<endl;
     cin>>n;
     int k=pow(2,n);
